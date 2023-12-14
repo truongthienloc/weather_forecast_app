@@ -4,7 +4,7 @@ import React from 'react'
 export default function MainScreen() {
     return (
         <View>
-            <Text>MainScreen</Text>
+            <Text className="text-xl">MainScreen</Text>
         </View>
     )
 }
