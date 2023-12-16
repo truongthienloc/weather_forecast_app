@@ -7,18 +7,22 @@ module.exports = function (api) {
                 'module-resolver',
                 {
                     root: ['.'],
-                    extensions: [
-                        '.js', '.jsx', '.json', '.png', '.jpg'
-                    ],
+                    extensions: ['.js', '.jsx', '.json', '.png', '.jpg'],
                     alias: {
                         '~': './src',
                         '@assets': './assets',
                     },
-                    // "~/": "./src/",
-                    // "@assets/": "./assets/"
                 },
             ],
             'nativewind/babel',
+            [
+                'module:react-native-dotenv',
+                {
+                    envName: 'APP_ENV',
+                    moduleName: '@env',
+                    path: '.env',
+                },
+            ],
         ],
     }
 }
