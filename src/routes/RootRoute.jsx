@@ -6,9 +6,13 @@ const Stack = createNativeStackNavigator()
 export default function RootRoute() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="main-screen" component={MainScreen} options={{
-                headerShown: false
-            }}/>
+            <Stack.Screen
+                name="main-screen"
+                component={MainScreen}
+                options={{
+                    headerShown: false,
+                }}
+            />
         </Stack.Navigator>
     )
 }
