@@ -8,6 +8,7 @@ const initialState = {
     history: [],
     hourly: [],
     current: {},
+    location: {},
     isLoading: true,
 }
 
@@ -37,6 +38,7 @@ const forecastSlice = createSlice({
                 state.current = action.payload.current
                 state.daily = action.payload.daily
                 state.hourly = action.payload.hourly
+                state.location = action.payload.location
                 state.isLoading = false
             })
     },

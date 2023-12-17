@@ -9,10 +9,10 @@ import {
 import React, { useEffect, useState } from 'react'
 import * as Location from 'expo-location'
 
-import { Entypo } from '@expo/vector-icons'
-import { WEATHER_NAME } from '~/configs/image'
 import { useSelector, useDispatch } from 'react-redux'
+import { TopCurrentForecast } from '~/components/CurrentForcast'
 import { DayForecast } from '~/components/DayForecast'
+import { HourForecast } from '~/components/HourForecast'
 
 import { forecastSelector } from '~/services/redux/selectors/forecast.selector'
 import { locationSelector } from '~/services/redux/selectors/location.selector'
@@ -51,13 +51,13 @@ export default function MainScreen() {
     }, [])
 
     useEffect(() => {
-        console.log(location.isLoading)
+        console.log(location.lat, location.lon)
         if (location.isLoading) {
             return
         }
 
         dispatch(fetchForecastThunk(`${location.lat},${location.lon}`))
-    }, [location.lat, location.lon])
+    }, [location])
 
     if (isPermissionDenied && location.isLoading) {
         return (
@@ -85,34 +85,11 @@ export default function MainScreen() {
         <MainLayout>
             <ScrollView
                 className="flex-1"
-                contentContainerStyle={{ flex: 1, gap: 32, padding: 16 }}
+                contentContainerStyle={{ gap: 32, padding: 16 }}
             >
-                <View className="pt-32 gap-4">
-                    <View className="flex-row justify-center gap-2">
-                        <Text className="text-white text-9xl">
-                            {forecast.current.temp_c}
-                        </Text>
-                        <Text className="text-white text-4xl font-bold">
-                            &#176;C
-                        </Text>
-                    </View>
-                    <Text className="text-white text-3xl text-center">
-                        {WEATHER_NAME[forecast.current.condition.text]}{' '}
-                        {forecast.current.maxtemp_c}&#176;/
-                        {forecast.current.mintemp_c}&#176;
-                    </Text>
-                    <View className="flex-row justify-center">
-                        <TouchableOpacity className="px-4 py-1 flex-row bg-gray-500 w-fit rounded-full  items-center opacity-80">
-                            <Entypo name="leaf" size={24} color="white" />
-                            <Text className="text-white text-base">
-                                {' '}
-                                AQI 30
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
+                <TopCurrentForecast data={forecast.current} />
                 <DayForecast data={forecast.daily} />
+                <HourForecast data={forecast.hourly} />
             </ScrollView>
         </MainLayout>
     )

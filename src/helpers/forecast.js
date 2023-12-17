@@ -32,7 +32,6 @@ export function getItemsForDaily(data) {
     const forecastDay = data.forecast.forecastday
 
     const printDay = (date, index) => {
-        console.log(date, index)
         if (index === 0) {
             return 'Hôm nay'
         } else if (index === 1) {
@@ -66,8 +65,10 @@ export function getItemsForHourly(data) {
             temp_f: fore.temp_f,
             condition: {
                 text: fore.condition.text,
+                icon: fore.condition.icon,
             },
             wind_kph: fore.wind_kph,
+            is_day: fore.is_day,
         }
     })
 }
@@ -76,10 +77,12 @@ export function filterForecast(data) {
     const current = getItemForCurrent(data)
     const daily = getItemsForDaily(data)
     const hourly = getItemsForHourly(data)
+    const location = data.location
 
     return {
         current,
         daily,
         hourly,
+        location,
     }
 }
