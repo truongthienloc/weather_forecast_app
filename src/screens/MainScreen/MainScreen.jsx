@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react'
 import * as Location from 'expo-location'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { TopCurrentForecast } from '~/components/CurrentForcast'
+import { TopCurrentForecast, BottomCurrentForecast } from '~/components/CurrentForcast'
 import { DayForecast } from '~/components/DayForecast'
 import { HourForecast } from '~/components/HourForecast'
 
@@ -67,7 +67,7 @@ export default function MainScreen() {
                         Không xác định được vị trí hiện tại.{'\n'}Vui lòng chọn
                         một địa điểm.
                     </Text>
-                    <TouchableOpacity className="rounded-full bg-gray-500 bg-opacity-0 items-center p-3">
+                    <TouchableOpacity className="rounded-full bg-primary items-center p-3">
                         <Text className="text-white text-2xl">
                             Chọn địa điểm
                         </Text>
@@ -90,6 +90,7 @@ export default function MainScreen() {
                 <TopCurrentForecast data={forecast.current} />
                 <DayForecast data={forecast.daily} />
                 <HourForecast data={forecast.hourly} />
+                <BottomCurrentForecast data={forecast.current} />
             </ScrollView>
         </MainLayout>
     )

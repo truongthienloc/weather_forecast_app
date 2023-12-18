@@ -7,6 +7,7 @@ export function getItemForCurrent(data) {
         (value) => new Date(value.time) - now > 0,
     )
     const day = data.forecast.forecastday[0].day
+    const astro = data.forecast.forecastday[0].astro
 
     return {
         temp_c: current.temp_c,
@@ -25,6 +26,10 @@ export function getItemForCurrent(data) {
         chance_of_rain: hour.chance_of_rain,
         maxtemp_c: day.maxtemp_c,
         mintemp_c: day.mintemp_c,
+        astro: {
+            sunrise: astro.sunrise,
+            sunset: astro.sunset,
+        }
     }
 }
 
