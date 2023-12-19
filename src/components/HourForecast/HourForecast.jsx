@@ -38,7 +38,8 @@ export default function HourForecast({ data }) {
                             className="h-11 aspect-square mb-1"
                             source={
                                 item.is_day === 1
-                                    ? WEATHER_ICON[item.condition.text]
+                                    ? WEATHER_ICON[item.condition.text] ??
+                                      WEATHER_ICON.other
                                     : { uri: `https:${item.condition.icon}` }
                             }
                         />

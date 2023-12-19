@@ -10,7 +10,10 @@ import React, { useEffect, useState } from 'react'
 import * as Location from 'expo-location'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { TopCurrentForecast, BottomCurrentForecast } from '~/components/CurrentForcast'
+import {
+    TopCurrentForecast,
+    BottomCurrentForecast,
+} from '~/components/CurrentForcast'
 import { DayForecast } from '~/components/DayForecast'
 import { HourForecast } from '~/components/HourForecast'
 
@@ -20,7 +23,7 @@ import { fetchForecastThunk } from '~/services/redux/slices/forecast.slice'
 import { locationActions } from '~/services/redux/slices/location.slice'
 import { MainLayout } from '~/layouts/MainLayout'
 
-export default function MainScreen() {
+export default function MainScreen({ navigation }) {
     const dispatch = useDispatch()
     const forecast = useSelector(forecastSelector)
     const location = useSelector(locationSelector)
@@ -28,7 +31,7 @@ export default function MainScreen() {
 
     useEffect(() => {
         ;(async () => {
-            if (!location.isLoading) {
+            if (location.isFirstLoaded) {
                 return
             }
 
@@ -59,6 +62,12 @@ export default function MainScreen() {
         dispatch(fetchForecastThunk(`${location.lat},${location.lon}`))
     }, [location])
 
+    const handleDailyPress = () => {
+        navigation.navigate('daily-detail-screen', {
+            data: [...forecast.history, ...forecast.daily],
+        })
+    }
+
     if (isPermissionDenied && location.isLoading) {
         return (
             <MainLayout>
@@ -88,7 +97,7 @@ export default function MainScreen() {
                 contentContainerStyle={{ gap: 32, padding: 16 }}
             >
                 <TopCurrentForecast data={forecast.current} />
-                <DayForecast data={forecast.daily} />
+                <DayForecast data={forecast.daily} onPress={handleDailyPress} />
                 <HourForecast data={forecast.hourly} />
                 <BottomCurrentForecast data={forecast.current} />
             </ScrollView>

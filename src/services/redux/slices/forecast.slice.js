@@ -1,6 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import dayjs from 'dayjs'
 import { fakeData } from '~/configs/fakeData'
-import { filterForecast } from '~/helpers/forecast'
+import { fakeHistory1 } from '~/configs/fakeHistory1'
+import { fakeHistory2 } from '~/configs/fakeHistory2'
+import { DAY } from '~/configs/time.constant'
+import { filterForecast, getItemsForDaily } from '~/helpers/forecast'
 import { api } from '~/services/axios'
 
 const initialState = {
@@ -39,6 +43,7 @@ const forecastSlice = createSlice({
                 state.daily = action.payload.daily
                 state.hourly = action.payload.hourly
                 state.location = action.payload.location
+                state.history = action.payload.history
                 state.isLoading = false
             })
     },
@@ -60,9 +65,29 @@ export const fetchForecastThunk = createAsyncThunk(
             //     }
             // })
 
-            // const data = filterForecast(res.data)
+            // const res_his1 = await api.get('/history.json', {
+            //     params: {
+            //         q: query,
+            //         dt: dayjs((new Date) - DAY).format('YYYY-MM-DD')
+            //     }
+            // })
 
-            const data = filterForecast(fakeData)
+            // const res_his2 = await api.get('/history.json', {
+            //     params: {
+            //         q: query,
+            //         dt: dayjs((new Date) - 2 * DAY).format('YYYY-MM-DD')
+            //     }
+            // })
+
+            // const forecasts = filterForecast(res.data)
+            // const his1 = getItemsForDaily(res_his1.data)
+            // const his2 = getItemsForDaily(res_his2.data)
+
+            const forecasts = filterForecast(fakeData)
+            const his1 = getItemsForDaily(fakeHistory1)[0]
+            const his2 = getItemsForDaily(fakeHistory2)[0]
+
+            const data = { ...forecasts, history: [his2, his1] }
 
             return data
         } catch (error) {

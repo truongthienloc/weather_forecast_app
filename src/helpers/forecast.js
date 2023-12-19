@@ -1,4 +1,6 @@
+import dayjs from 'dayjs'
 import { convertDate2Day } from './date'
+import { DAY } from '~/configs/time.constant'
 
 export function getItemForCurrent(data) {
     const now = new Date()
@@ -29,18 +31,22 @@ export function getItemForCurrent(data) {
         astro: {
             sunrise: astro.sunrise,
             sunset: astro.sunset,
-        }
+        },
     }
 }
 
 export function getItemsForDaily(data) {
+    // console.log('data: ', data);
     const forecastDay = data.forecast.forecastday
 
-    const printDay = (date, index) => {
-        if (index === 0) {
+    const printDay = (date) => {
+        const now = dayjs(new Date()).format('YYYY-MM-DD')
+        if (date === now) {
             return 'Hôm nay'
-        } else if (index === 1) {
+        } else if (new Date(date) - new Date(now) === DAY) {
             return 'Ngày mai'
+        } else if (new Date(date) - new Date(now) === -DAY) {
+            return 'Hôm qua'
         } else {
             return convertDate2Day(date)
         }
@@ -48,7 +54,8 @@ export function getItemsForDaily(data) {
 
     return forecastDay.map((fore, index) => {
         return {
-            date: printDay(fore.date, index),
+            day: printDay(fore.date, index),
+            date: dayjs(fore.date).format('DD/MM'),
             maxtemp_c: fore.day.maxtemp_c,
             maxtemp_f: fore.day.maxtemp_f,
             mintemp_c: fore.day.mintemp_c,
@@ -56,6 +63,7 @@ export function getItemsForDaily(data) {
             condition: {
                 text: fore.day.condition.text,
             },
+            maxwind_kph: fore.day.maxwind_kph,
         }
     })
 }

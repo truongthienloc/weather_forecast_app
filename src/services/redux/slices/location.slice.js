@@ -6,6 +6,7 @@ const initialState = {
     city: '',
     country: '',
     isLoading: true,
+    isFirstLoaded: false,
     isPermissionDenied: false,
 }
 
@@ -17,6 +18,7 @@ const locationSlice = createSlice({
             state.lat = action.payload.lat
             state.lon = action.payload.lon
             state.isLoading = false
+            state.isFirstLoaded = true
         },
     },
 })
