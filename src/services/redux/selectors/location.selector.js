@@ -1,1 +1,1 @@
-export const locationSelector = state => state.location
+export const locationSelector = (state) => state.location

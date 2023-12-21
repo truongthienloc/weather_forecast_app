@@ -1,10 +1,10 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 import { React } from 'react'
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native'
 
 export default function MainHead({ city }) {
-    const navigation = useNavigation();
+    const navigation = useNavigation()
     const onAddPress = () => {
         navigation.navigate('cities-screen')
     }
