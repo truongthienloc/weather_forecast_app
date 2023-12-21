@@ -1,9 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    lat: 0,
-    lon: 0,
+    lat: null,
+    lon: null,
+    city: '',
+    country: '',
     isLoading: true,
+    isFirstLoaded: false,
+    isPermissionDenied: false,
 }
 
 const locationSlice = createSlice({
@@ -11,12 +15,13 @@ const locationSlice = createSlice({
     initialState,
     reducers: {
         setLocation: (state, action) => {
-            state.lat = action.payload.lat;
-            state.lon = action.payload.lon;
-            state.isLoading = false;
-        }
-    }
+            state.lat = action.payload.lat
+            state.lon = action.payload.lon
+            state.isLoading = false
+            state.isFirstLoaded = true
+        },
+    },
 })
 
-export default locationSlice;
-export const locationActions = locationSlice.actions;
+export default locationSlice
+export const locationActions = locationSlice.actions
