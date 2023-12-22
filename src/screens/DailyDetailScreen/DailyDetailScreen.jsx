@@ -6,6 +6,7 @@ import clsx from 'clsx'
 
 export default function DailyDetailScreen({ route, navigation }) {
     const { data } = route.params
+    // console.log('data: ', data);
     return (
         <View className="flex-1">
             <FlatList

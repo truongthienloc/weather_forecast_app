@@ -56,38 +56,41 @@ export const fetchForecastThunk = createAsyncThunk(
     'forecast/fetching',
     async (query) => {
         try {
-            // const res = await api.get('/forecast.json', {
-            //     params: {
-            //         q: query,
-            //         days: 3,
-            //         aqi: 'no',
-            //         alerts: 'no',
-            //     }
-            // })
+            const res = await api.get('/forecast.json', {
+                params: {
+                    q: query,
+                    days: 3,
+                    aqi: 'no',
+                    alerts: 'no',
+                }
+            })
 
-            // const res_his1 = await api.get('/history.json', {
-            //     params: {
-            //         q: query,
-            //         dt: dayjs((new Date) - DAY).format('YYYY-MM-DD')
-            //     }
-            // })
+            const now = res.data.current.last_updated
 
-            // const res_his2 = await api.get('/history.json', {
-            //     params: {
-            //         q: query,
-            //         dt: dayjs((new Date) - 2 * DAY).format('YYYY-MM-DD')
-            //     }
-            // })
+            const res_his1 = await api.get('/history.json', {
+                params: {
+                    q: query,
+                    dt: dayjs((new Date(now)) - DAY).format('YYYY-MM-DD')
+                }
+            })
 
-            // const forecasts = filterForecast(res.data)
-            // const his1 = getItemsForDaily(res_his1.data)
-            // const his2 = getItemsForDaily(res_his2.data)
+            const res_his2 = await api.get('/history.json', {
+                params: {
+                    q: query,
+                    dt: dayjs((new Date(now)) - 2 * DAY).format('YYYY-MM-DD')
+                }
+            })
 
-            const forecasts = filterForecast(fakeData)
-            const his1 = getItemsForDaily(fakeHistory1)[0]
-            const his2 = getItemsForDaily(fakeHistory2)[0]
+            // console.log('res: ', res.data);
+            const forecasts = filterForecast(res.data)
+            const his1 = getItemsForDaily(res_his1.data, res.data.current)
+            const his2 = getItemsForDaily(res_his2.data, res.data.current)
 
-            const data = { ...forecasts, history: [his2, his1] }
+            // const forecasts = filterForecast(fakeData)
+            // const his1 = getItemsForDaily(fakeHistory1)[0]
+            // const his2 = getItemsForDaily(fakeHistory2)[0]
+
+            const data = { ...forecasts, history: [his2[0], his1[0]] }
 
             return data
         } catch (error) {
