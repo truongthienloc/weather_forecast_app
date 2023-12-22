@@ -3,13 +3,14 @@ import { convertDate2Day } from './date'
 import { DAY } from '~/configs/time.constant'
 
 export function getItemForCurrent(data) {
-    const now = new Date()
     const current = data.current
     const hour = data.forecast.forecastday[0].hour.find(
-        (value) => new Date(value.time) - now > 0,
+        (value) => new Date(value.time) - new Date(current.last_updated) > 0,
     )
     const day = data.forecast.forecastday[0].day
     const astro = data.forecast.forecastday[0].astro
+
+    console.log('hour: ', data.forecast.forecastday[0].hour);
 
     return {
         temp_c: current.temp_c,
@@ -35,12 +36,13 @@ export function getItemForCurrent(data) {
     }
 }
 
-export function getItemsForDaily(data) {
-    // console.log('data: ', data);
+export function getItemsForDaily(data, curr) {
+    // console.log('curr: ', curr);
+    const current = curr ?? data.current
     const forecastDay = data.forecast.forecastday
 
     const printDay = (date) => {
-        const now = dayjs(new Date()).format('YYYY-MM-DD')
+        const now = dayjs(new Date(current.last_updated)).format('YYYY-MM-DD')
         if (date === now) {
             return 'Hôm nay'
         } else if (new Date(date) - new Date(now) === DAY) {
@@ -88,8 +90,11 @@ export function getItemsForHourly(data) {
 
 export function filterForecast(data) {
     const current = getItemForCurrent(data)
+    // console.log('current: ', current);
     const daily = getItemsForDaily(data)
+    // console.log('daily: ', daily);
     const hourly = getItemsForHourly(data)
+    // console.log('hourly: ', hourly);
     const location = data.location
 
     return {
