@@ -8,10 +8,11 @@ import { StatusBar } from 'expo-status-bar'
 const CitiesScreen = () => {
     const navigation = useNavigation()
     const [search, setSearch] = useState()
+    const [Cities, setCities] = useState([]);
     const updateSearch = (search) => {
         setSearch(search)
     }
-
+    // setCities([...Cities,city])
     useEffect(() => {
         navigation.setOptions({
             title: 'Quản lý thành phố',
