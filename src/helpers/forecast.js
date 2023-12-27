@@ -10,8 +10,6 @@ export function getItemForCurrent(data) {
     const day = data.forecast.forecastday[0].day
     const astro = data.forecast.forecastday[0].astro
 
-    console.log('hour: ', data.forecast.forecastday[0].hour);
-
     return {
         temp_c: current.temp_c,
         temp_f: current.temp_f,

@@ -3,12 +3,20 @@ import { CitiesScreen } from '~/screens/CitiesScreen'
 import { MainScreen } from '~/screens/MainScreen'
 import { SettingScreen } from '~/screens/SettingScreen'
 import { DailyDetailScreen } from '~/screens/DailyDetailScreen'
+import { IntroScreen } from '~/screens/IntroScreen'
 
 const Stack = createNativeStackNavigator()
 
 export default function RootRoute() {
     return (
         <Stack.Navigator>
+            <Stack.Screen
+                name="intro-screen"
+                component={IntroScreen}
+                options={{
+                    headerShown: false,
+                }}
+            />
             <Stack.Screen
                 name="main-screen"
                 component={MainScreen}
