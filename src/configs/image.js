@@ -19,7 +19,7 @@ export const WEATHER_ICON = {
 }
 
 export const WEATHER_NAME = {
-    'Partly cloudy': 'Nhiều mây',
+    'Partly cloudy': 'Nắng ít mây',
     'Moderate rain': 'Mưa vừa',
     'Patchy rain possible': 'Mưa rải rác',
     'Patchy light rain': 'Mưa rải rác',
