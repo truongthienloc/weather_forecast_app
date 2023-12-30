@@ -13,17 +13,10 @@ import { citiItemImages } from '../../constants'
 import { api } from '~/services/axios'
 import { getItemForCurrent } from '~/helpers/forecast'
 
-const CityItem = ({ location, condition, cityData, isMyLocation = false }) => {
+const CityItem = ({ location, isMyLocation = false }) => {
     const [Condition, setCondition] = useState('')
     const [showDelete, setshowDelete] = useState(false)
     const [data, setData] = useState({})
-    // const city = {
-    //     name: '',
-    //     curTemperature: '',
-    //     lowestTemperature: '',
-    //     highestTemperature: '',
-    //     AQI: '',
-    // }
     const handleLongPress = () => {
         setshowDelete(!showDelete)
     }
@@ -39,8 +32,6 @@ const CityItem = ({ location, condition, cityData, isMyLocation = false }) => {
         }
         fetchData()
     }, [])
-    console.log('data', data)
-    console.log('location', location)
     return (
         <TouchableOpacity
             style={styles.container}
@@ -49,7 +40,7 @@ const CityItem = ({ location, condition, cityData, isMyLocation = false }) => {
             {/* <View className="flex flex-row gap-4"> */}
                 <ImageBackground
                     source={citiItemImages[data?.condition?.text || 'other']}
-                    blurRadius={100}
+                    blurRadius={50}
                 >
                     <View className="w-full flex flex-row items-center justify-between px-5 py-5">
                         <View className="w-[50%]">
