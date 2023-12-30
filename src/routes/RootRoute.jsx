@@ -4,6 +4,7 @@ import { MainScreen } from '~/screens/MainScreen'
 import { SettingScreen } from '~/screens/SettingScreen'
 import { DailyDetailScreen } from '~/screens/DailyDetailScreen'
 import { IntroScreen } from '~/screens/IntroScreen'
+import SearchScreen from '~/screens/SearchScreen/SearchScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -34,6 +35,13 @@ export default function RootRoute() {
             />
             <Stack.Screen name="setting-screen" component={SettingScreen} />
             <Stack.Screen name="cities-screen" component={CitiesScreen} />
+            <Stack.Screen
+                name="search-screen"
+                component={SearchScreen}
+                options={{
+                    headerShown: false,
+                }}
+            />
         </Stack.Navigator>
     )
 }

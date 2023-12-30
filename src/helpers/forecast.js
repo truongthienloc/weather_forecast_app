@@ -11,6 +11,7 @@ export function getItemForCurrent(data) {
     const astro = data.forecast.forecastday[0].astro
 
     return {
+        location_name: data.location?.name,
         temp_c: current.temp_c,
         temp_f: current.temp_f,
         condition: {

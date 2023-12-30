@@ -1,11 +1,17 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import { Entypo } from '@expo/vector-icons'
 import { WEATHER_NAME } from '~/configs/image'
+import { weatherImages } from '../../constants';
 
 export default function TopCurrentForecast({ data }) {
     return (
-        <View className="pt-32 gap-4">
+        <View className="gap-4">
+            <View className="flex-row justify-center">
+                  <Image 
+                    source={weatherImages[data?.condition?.text || 'other']} 
+                    className="w-52 h-52" />
+                </View>
             <View className="flex-row justify-center gap-2">
                 <Text className="text-white text-9xl">{data.temp_c}</Text>
                 <Text className="text-white text-4xl font-bold">&#176;C</Text>
