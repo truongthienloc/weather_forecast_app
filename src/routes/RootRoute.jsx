@@ -46,6 +46,7 @@ export default function RootRoute() {
                 component={CitiesScreen}
                 options={{
                     animation: 'slide_from_left',
+                    headerTitle: 'Quản lý thành phố',
                 }}
             />
             <Stack.Screen

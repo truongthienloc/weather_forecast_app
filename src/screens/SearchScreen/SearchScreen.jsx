@@ -43,7 +43,6 @@ const SearchScreen = () => {
             title: 'Tìm kiếm',
         })
     }, [navigation])
-    console.log('location', location)
     return (
         <View>
             <StatusBar style="light" backgroundColor="black" />
@@ -62,10 +61,8 @@ const SearchScreen = () => {
                     />
                     <ArrowUturnLeftIcon size="25" color="black" onPress={handleBack}/>
                 </View>
-            </View>
-            {/* SearchItem  */}
             {locations.length > 0 ? (
-                <View className="w-full bg-gray-300 rounded-md ">
+                <View className="w-full bg-gray-300 rounded-md">
                     {locations.map((loc, index) => {
                         let showBorder = index + 1 != locations.length
                         let borderClass = showBorder
@@ -76,11 +73,14 @@ const SearchScreen = () => {
                                 key={index}
                                 location={loc}
                                 borderClass={borderClass}
+
                             />
                         )
                     })}
                 </View>
             ) : null}
+            </View>
+            {/* SearchItem  */}
         </View>
     )
 }

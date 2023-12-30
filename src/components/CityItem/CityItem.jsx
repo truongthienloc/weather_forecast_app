@@ -40,22 +40,22 @@ const CityItem = ({ location, isMyLocation = false }) => {
             {/* <View className="flex flex-row gap-4"> */}
                 <ImageBackground
                     source={citiItemImages[data?.condition?.text || 'other']}
-                    blurRadius={50}
+                    blurRadius={100}
                 >
                     <View className="w-full flex flex-row items-center justify-between px-5 py-5">
                         <View className="w-[50%]">
                             <View className="flex flex-row items-center">
-                                <Text className="text-4xl pr-1">
+                                <Text className="text-2xl font-bold pr-1 text-white">
                                     {data?.location_name || location}
                                 </Text>
-                                <MapPin size={'30px'} color="black" />
+                                <MapPin size={'30px'} color="white" />
                             </View>
                             <View className="flex flex-row gap-5">
-                                <Text>AQI 31</Text>
+                                <Text className="text-white">AQI 31</Text>
                                 <View className="flex flex-row items-center">
-                                    <Text>{data.maxtemp_c}°</Text>
-                                    <Text>/</Text>
-                                    <Text>{data.mintemp_c}°</Text>
+                                    <Text className="text-white">{data.maxtemp_c}°</Text>
+                                    <Text className="text-white">/</Text>
+                                    <Text className="text-white">{data.mintemp_c}°</Text>
                                 </View>
                             </View>
                         </View>

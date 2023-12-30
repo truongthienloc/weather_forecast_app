@@ -1,5 +1,5 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { createSlice } from '@reduxjs/toolkit'
-
 const initialState = {
     citiesList: [],
 }
@@ -8,40 +8,42 @@ export const citiesSlice = createSlice({
     name: 'cities',
     initialState,
     reducers: {
-        increasement: (state, actions) => {
-            let data = state.citiesList
-            const isExist = data.some((item) => item?.id === actions.payload.id)
-            if (isExist) {
-                const citiesData = data.map((item) => {
-                    if (item.id === actions.payload.id) {
-                        item.quantity += 1
-                    }
-                    return item
-                })
-                state.citiesList = citiesData
-                state.total += 1
-                return state
-            }
+        initValue: (state, action) => {
             return {
-                ...state,
-                citiesList: [...data, { ...actions.payload, quantity: 1 }],
-                total: state.total + 1,
+                ...state,citiesList: action.payload
             }
         },
-        deleteItem: (state, actions) => {
-            let data = state.citiesList
-            const item = data.find((item) => item?.id === actions.payload)
-            if (!item) {
-                return state
+        addCity: (state, action) => {
+            try {
+                console.log(action.payload);
+                const citiesList = [...state.citiesList, action.payload]
+                AsyncStorage.setItem('citiesList', JSON.stringify(citiesList))
+                // console.log('cityList', citiesList)
+                return {
+                    ...state, citiesList
+                }
+            } catch (error) {
+                console.error('Error saving citiesList to AsyncStorage:', error)
+                return state;
             }
-            state.total -= item.quantity
-            state.citiesList = data.filter((item) => item?.id !== actions.payload)
+        },
+        removeCity: (state, action) => {
+            try {
+                const citiesList = [...state.citiesList].filter(c => c !== action.payload)
+                AsyncStorage.setItem('citiesList', JSON.stringify(citiesList))
+                return {
+                    ...state, citiesList
+                }
+            } catch (error) {
+                console.error('Error saving citiesList to AsyncStorage:', error)
+                return state;
+            }
         },
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { increasement, deleteItem } =
+export const { initValue, addCity, removeCity } =
     citiesSlice.actions
 
 export default citiesSlice.reducer

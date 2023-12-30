@@ -21,37 +21,39 @@ import { SearchBar } from '@rneui/themed'
 import { CityItem } from '~/components/CityItem'
 import { StatusBar } from 'expo-status-bar'
 import { locationSelector } from '~/services/redux/selectors/location.selector'
-import { useSelector } from 'react-redux'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch, useSelector } from 'react-redux'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import citiesSlice, { initValue } from '~/services/redux/slices/cities.slice'
 
 const CitiesScreen = () => {
     const navigation = useNavigation()
     const location = useSelector(locationSelector)
     const [locations, setlocations] = useState([])
     const [search, setSearch] = useState()
-    const [Cities, setCities] = useState([])
+    const dispatch = useDispatch()
+    const Cities = useSelector(state => state.citiesSlice.citiesList)
     const navigateSearch = () => {
         navigation.navigate('search-screen')
     }
     useEffect(() => {
-        navigation.setOptions({
-            title: 'Quản lý thành phố',
-        })
-    }, [navigation])
-    useEffect(() => {
-        const getData = async () => {
+        const getCitiesListFromAsyncStorage = async () => {
             try {
-              const res = await AsyncStorage.getItem('cities');
-              if (value !== null) {
-                setCities(res)
-              }
-            } catch (e) {
-              console.log('Error: ',e)
+                const storedCitiesList =
+                    await AsyncStorage.getItem('citiesList')
+                if (storedCitiesList !== null) {
+                    console.log('stcl',storedCitiesList);
+                    dispatch(initValue((JSON.parse(storedCitiesList))))
+                }
+            } catch (error) {
+                console.error(
+                    'Error retrieving citiesList from AsyncStorage:',
+                    error,
+                )
             }
-          };
-        getData()
-    }, []);
-    console.log('location', location)
+        }
+        getCitiesListFromAsyncStorage()
+    }, [])
+    console.log('city', Cities)
     return (
         <>
             <StatusBar style="light" backgroundColor="black" />
@@ -81,36 +83,20 @@ const CitiesScreen = () => {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <ScrollView contentContainerStyle={{ gap: 8, padding: 4 }}>
-                    {/* Sửa thành flastlist */}
-                    <CityItem location={`${location.lat},${location.lon}`} />
-                    <CityItem location={'Paris'} condition={'sunny'} />
-                    <CityItem location={'London'} condition={'snowy'} />
-                    <CityItem location={'New York'} condition={'cloudy'} />
-                    <CityItem location={'Sydney'} condition={'hot'} />
-                    <CityItem location={'Paris'} condition={'sunny'} />
-                    <CityItem location={'London'} condition={'snowy'} />
-                    <CityItem location={'New York'} condition={'cloudy'} />
-                    <CityItem location={'Sydney'} condition={'hot'} />
-                    <CityItem location={'Paris'} condition={'sunny'} />
-                    <CityItem location={'London'} condition={'snowy'} />
-                    <CityItem location={'New York'} condition={'cloudy'} />
-                    <CityItem location={'Sydney'} condition={'hot'} />
-                </ScrollView>
-                {/* <View className="flex-1">
-                    <FlatList
-                        horizontal
-                        data={Cities}
-                        keyExtractor={(item) => item.location?.name}
-                        renderItem={({ item }) => (
-                            <CityItem
-                                location={item.location?.name}
-                                condition={item.current?.condition?.text}
-                            />
-                        )}
-                    />
-                </View> */}
-                {/* Cần sửa phần này */}
+                <View className="m-[8px]">
+                    <View>
+                        <CityItem
+                            location={`${location.lat},${location.lon}`}
+                        />
+                        <FlatList
+                            data={Cities}
+                            keyExtractor={(item) => item}
+                            renderItem={({ item }) => (
+                                <CityItem location={item} />
+                            )}
+                        />
+                    </View>
+                </View>
             </View>
         </>
     )
