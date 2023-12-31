@@ -31,15 +31,30 @@ export default function RootRoute() {
                 options={{
                     headerTitle: 'Dự báo 5 ngày',
                     headerTitleAlign: 'center',
+                    animation: 'fade_from_bottom'
                 }}
             />
-            <Stack.Screen name="setting-screen" component={SettingScreen} />
-            <Stack.Screen name="cities-screen" component={CitiesScreen} />
+            <Stack.Screen
+                name="setting-screen"
+                component={SettingScreen}
+                options={{
+                    animation: 'slide_from_right',
+                }}
+            />
+            <Stack.Screen
+                name="cities-screen"
+                component={CitiesScreen}
+                options={{
+                    animation: 'slide_from_left',
+                    headerTitle: 'Quản lý thành phố',
+                }}
+            />
             <Stack.Screen
                 name="search-screen"
                 component={SearchScreen}
                 options={{
                     headerShown: false,
+                    animation: 'fade_from_bottom',
                 }}
             />
         </Stack.Navigator>

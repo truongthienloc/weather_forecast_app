@@ -13,17 +13,10 @@ import { citiItemImages } from '../../constants'
 import { api } from '~/services/axios'
 import { getItemForCurrent } from '~/helpers/forecast'
 
-const CityItem = ({ location, condition, cityData, isMyLocation = false }) => {
+const CityItem = ({ location, isMyLocation = false }) => {
     const [Condition, setCondition] = useState('')
     const [showDelete, setshowDelete] = useState(false)
     const [data, setData] = useState({})
-    // const city = {
-    //     name: '',
-    //     curTemperature: '',
-    //     lowestTemperature: '',
-    //     highestTemperature: '',
-    //     AQI: '',
-    // }
     const handleLongPress = () => {
         setshowDelete(!showDelete)
     }
@@ -39,8 +32,6 @@ const CityItem = ({ location, condition, cityData, isMyLocation = false }) => {
         }
         fetchData()
     }, [])
-    console.log('data', data)
-    console.log('location', location)
     return (
         <TouchableOpacity
             style={styles.container}
@@ -54,17 +45,17 @@ const CityItem = ({ location, condition, cityData, isMyLocation = false }) => {
                     <View className="w-full flex flex-row items-center justify-between px-5 py-5">
                         <View className="w-[50%]">
                             <View className="flex flex-row items-center">
-                                <Text className="text-4xl pr-1">
+                                <Text className="text-2xl font-bold pr-1 text-white">
                                     {data?.location_name || location}
                                 </Text>
-                                <MapPin size={'30px'} color="black" />
+                                <MapPin size={'30px'} color="white" />
                             </View>
                             <View className="flex flex-row gap-5">
-                                <Text>AQI 31</Text>
+                                <Text className="text-white">AQI 31</Text>
                                 <View className="flex flex-row items-center">
-                                    <Text>{data.maxtemp_c}°</Text>
-                                    <Text>/</Text>
-                                    <Text>{data.mintemp_c}°</Text>
+                                    <Text className="text-white">{data.maxtemp_c}°</Text>
+                                    <Text className="text-white">/</Text>
+                                    <Text className="text-white">{data.mintemp_c}°</Text>
                                 </View>
                             </View>
                         </View>

@@ -4,9 +4,8 @@ import { WEATHER_ICON } from '~/configs/image'
 import { FontAwesome5, Entypo } from '@expo/vector-icons'
 import clsx from 'clsx'
 
-export default function DailyDetailScreen({ route, navigation }) {
+export default function DailyDetailScreen({ route, navigation, location }) {
     const { data } = route.params
-    // console.log('data: ', data);
     return (
         <View className="flex-1">
             <FlatList
