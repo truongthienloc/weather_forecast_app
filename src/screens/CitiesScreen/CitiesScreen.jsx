@@ -31,7 +31,7 @@ const CitiesScreen = () => {
     const [locations, setlocations] = useState([])
     const [search, setSearch] = useState()
     const dispatch = useDispatch()
-    const Cities = useSelector(state => state.citiesSlice.citiesList)
+    const Cities = useSelector((state) => state.citiesSlice.citiesList)
     const navigateSearch = () => {
         navigation.navigate('search-screen')
     }
@@ -41,8 +41,8 @@ const CitiesScreen = () => {
                 const storedCitiesList =
                     await AsyncStorage.getItem('citiesList')
                 if (storedCitiesList !== null) {
-                    console.log('stcl',storedCitiesList);
-                    dispatch(initValue((JSON.parse(storedCitiesList))))
+                    console.log('stcl', storedCitiesList)
+                    dispatch(initValue(JSON.parse(storedCitiesList)))
                 }
             } catch (error) {
                 console.error(
@@ -57,7 +57,7 @@ const CitiesScreen = () => {
     return (
         <>
             <StatusBar style="light" backgroundColor="black" />
-            <View>
+            <View className="flex-1">
                 <View
                     style={{ height: '7%' }}
                     className="mx-4 relative z-50 my-5 "
@@ -83,19 +83,14 @@ const CitiesScreen = () => {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View className="m-[8px]">
-                    <View>
-                        <CityItem
-                            location={`${location.lat},${location.lon}`}
-                        />
-                        <FlatList
-                            data={Cities}
-                            keyExtractor={(item) => item}
-                            renderItem={({ item }) => (
-                                <CityItem location={item} />
-                            )}
-                        />
-                    </View>
+                <View className="m-[8px] flex-1">
+                    <CityItem location={`${location.lat},${location.lon}`} />
+                    <FlatList
+                        // style={{flex: 1}}
+                        data={Cities}
+                        keyExtractor={(item) => item}
+                        renderItem={({ item }) => <CityItem location={item} />}
+                    />
                 </View>
             </View>
         </>
