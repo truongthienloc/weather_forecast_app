@@ -5,8 +5,8 @@ import { WEATHER_ICON, WEATHER_NAME } from '~/configs/image'
 export default function HourForecast({ data }) {
     const _data = useMemo(
         () =>
-            data.map((value) => {
-                const gap = (new Date() - new Date(value.time)) / 1000
+            data.hour.map((value) => {
+                const gap = (new Date(data.location.localtime) - new Date(value.time)) / 1000
 
                 return {
                     ...value,

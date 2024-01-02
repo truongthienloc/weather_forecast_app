@@ -43,7 +43,8 @@ export default function MainScreen({ navigation }) {
 
             setIsPermissionDenied(false)
 
-            const loc = await Location.getCurrentPositionAsync({})
+            const loc = await Location.getCurrentPositionAsync({timeInterval: 3000})
+            
             dispatch(
                 locationActions.setLocation({
                     lat: loc.coords.latitude,
@@ -98,7 +99,7 @@ export default function MainScreen({ navigation }) {
             >
                 <TopCurrentForecast data={forecast.current} />
                 <DayForecast data={forecast.daily} onPress={handleDailyPress} />
-                <HourForecast data={forecast.hourly} />
+                <HourForecast data={{hour: forecast.hourly, location: forecast.location}} />
                 <BottomCurrentForecast data={forecast.current} />
             </ScrollView>
         </MainLayout>

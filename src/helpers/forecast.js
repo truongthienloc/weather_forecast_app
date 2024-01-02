@@ -4,9 +4,15 @@ import { DAY } from '~/configs/time.constant'
 
 export function getItemForCurrent(data) {
     const current = data.current
-    const hour = data.forecast.forecastday[0].hour.find(
-        (value) => new Date(value.time) - new Date(current.last_updated) > 0,
+    const now = new Date(data.location.localtime)
+    let hour = data.forecast.forecastday[0].hour.find(
+        (value) => new Date(value.time) - now > 0,
     )
+
+    if (!hour) {
+        hour = data.forecast.forecastday[1].hour[0]
+    }
+
     const day = data.forecast.forecastday[0].day
     const astro = data.forecast.forecastday[0].astro
 
