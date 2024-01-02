@@ -30,7 +30,7 @@ export default function IntroScreen({ navigation }) {
                     alignItems: 'center',
                     justifyContent: 'space-around',
                     paddingBottom: 100,
-                    paddingHorizontal: 16
+                    paddingHorizontal: 16,
                 }}
             >
                 <Text style={styles.introTitleStyle}>{item.title}</Text>
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     introImageStyle: {
         width: 200,
         height: 200,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
     },
     introTextStyle: {
         fontSize: 18,

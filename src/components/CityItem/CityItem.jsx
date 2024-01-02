@@ -38,40 +38,44 @@ const CityItem = ({ location, isMyLocation = false }) => {
             onLongPress={handleLongPress}
         >
             {/* <View className="flex flex-row gap-4"> */}
-                <ImageBackground
-                    source={citiItemImages[data?.condition?.text || 'other']}
-                    blurRadius={100}
-                >
-                    <View className="w-full flex flex-row items-center justify-between px-5 py-5">
-                        <View className="w-[50%]">
-                            <View className="flex flex-row items-center">
-                                <Text className="text-2xl font-bold pr-1 text-white">
-                                    {data?.location_name || location}
-                                </Text>
-                                <MapPin size={'30px'} color="white" />
-                            </View>
-                            <View className="flex flex-row gap-5">
-                                <Text className="text-white">AQI 31</Text>
-                                <View className="flex flex-row items-center">
-                                    <Text className="text-white">{data.maxtemp_c}°</Text>
-                                    <Text className="text-white">/</Text>
-                                    <Text className="text-white">{data.mintemp_c}°</Text>
-                                </View>
-                            </View>
-                        </View>
-
-                        <View>
-                            <Text className="font-bold text-4xl text-white">
-                                {data.temp_c}°C
+            <ImageBackground
+                source={citiItemImages[data?.condition?.text || 'other']}
+                blurRadius={100}
+            >
+                <View className="w-full flex flex-row items-center justify-between px-5 py-5">
+                    <View className="w-[50%]">
+                        <View className="flex flex-row items-center">
+                            <Text className="text-2xl font-bold pr-1 text-white">
+                                {data?.location_name || location}
                             </Text>
+                            <MapPin size={'30px'} color="white" />
+                        </View>
+                        <View className="flex flex-row gap-5">
+                            <Text className="text-white">AQI 31</Text>
+                            <View className="flex flex-row items-center">
+                                <Text className="text-white">
+                                    {data.maxtemp_c}°
+                                </Text>
+                                <Text className="text-white">/</Text>
+                                <Text className="text-white">
+                                    {data.mintemp_c}°
+                                </Text>
+                            </View>
                         </View>
                     </View>
-                </ImageBackground>
-                {showDelete ? (
-                    <TouchableOpacity>
-                        <XMarkIcon size={'30'} color={'red'} />
-                    </TouchableOpacity>
-                ) : null}
+
+                    <View>
+                        <Text className="font-bold text-4xl text-white">
+                            {data.temp_c}°C
+                        </Text>
+                    </View>
+                </View>
+            </ImageBackground>
+            {showDelete ? (
+                <TouchableOpacity>
+                    <XMarkIcon size={'30'} color={'red'} />
+                </TouchableOpacity>
+            ) : null}
             {/* </View> */}
         </TouchableOpacity>
     )

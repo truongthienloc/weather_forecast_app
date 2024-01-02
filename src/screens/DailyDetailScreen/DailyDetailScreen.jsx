@@ -1,16 +1,45 @@
 import { View, Text, FlatList, Image } from 'react-native'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { WEATHER_ICON } from '~/configs/image'
 import { FontAwesome5, Entypo } from '@expo/vector-icons'
 import clsx from 'clsx'
+import { fetchForecast } from '~/services/axios/actions/forecast.action'
+import { LoadingScreen } from '~/components/EmptyScreen'
 
-export default function DailyDetailScreen({ route, navigation, location }) {
-    const { data } = route.params
+export default function DailyDetailScreen({ route, navigation }) {
+    const { data, location } = route.params
+    const [daily, setDaily] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
+
+    const fetchDaily = async () => {
+        try {
+            setIsLoading(true)
+            const res = await fetchForecast(location.url)
+            const data = [...res.history, ...res.daily]
+            setDaily(data)
+            setIsLoading(false)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        if (location && location !== '') {
+            fetchDaily()
+        } else {
+            setDaily(data)
+        }
+    }, [location])
+
+    if (isLoading) {
+        return <LoadingScreen />
+    }
+
     return (
         <View className="flex-1">
             <FlatList
                 horizontal
-                data={data}
+                data={daily}
                 keyExtractor={(item) => item.date}
                 renderItem={({ item }) => (
                     <DailyItem

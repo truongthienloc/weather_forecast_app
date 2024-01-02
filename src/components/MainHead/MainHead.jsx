@@ -16,7 +16,7 @@ export default function MainHead({ city }) {
             <TouchableOpacity onPress={onAddPress}>
                 <AntDesign name="plus" size={32} color="white" />
             </TouchableOpacity>
-                <Text className="text-white text-2xl font-bold">{city}</Text>
+            <Text className="text-white text-2xl font-bold">{city}</Text>
             <TouchableOpacity onPress={onOptionPress}>
                 <MaterialCommunityIcons
                     name="dots-vertical"
