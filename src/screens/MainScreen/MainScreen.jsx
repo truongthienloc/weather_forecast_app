@@ -6,7 +6,7 @@ import {
     Image,
     TouchableOpacity,
 } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import * as Location from 'expo-location'
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -43,8 +43,9 @@ export default function MainScreen({ navigation }) {
 
             setIsPermissionDenied(false)
 
-            const loc = await Location.getCurrentPositionAsync({timeInterval: 3000})
-            
+            const loc = await Location.getCurrentPositionAsync({
+                mayShowUserSettingsDialog: false,
+            })
             dispatch(
                 locationActions.setLocation({
                     lat: loc.coords.latitude,
@@ -99,7 +100,12 @@ export default function MainScreen({ navigation }) {
             >
                 <TopCurrentForecast data={forecast.current} />
                 <DayForecast data={forecast.daily} onPress={handleDailyPress} />
-                <HourForecast data={{hour: forecast.hourly, location: forecast.location}} />
+                <HourForecast
+                    data={{
+                        hour: forecast.hourly,
+                        location: forecast.location,
+                    }}
+                />
                 <BottomCurrentForecast data={forecast.current} />
             </ScrollView>
         </MainLayout>

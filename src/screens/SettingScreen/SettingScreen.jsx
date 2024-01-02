@@ -3,7 +3,7 @@ import { React, useEffect, useRef, useState } from 'react'
 import { Text, View, StyleSheet, Switch, TouchableOpacity } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import SelectDropdown from 'react-native-select-dropdown'
-import { ChevronRight, ChevronsUpDown } from 'lucide-react-native';
+import { ChevronRight, ChevronsUpDown } from 'lucide-react-native'
 
 const SettingScreen = () => {
     const navigation = useNavigation()
@@ -85,7 +85,10 @@ const SettingScreen = () => {
                 <View style={styles.line}></View>
                 <View style={styles.div}>
                     <Text style={styles.heading}>Cài đăt khác</Text>
-                    <TouchableOpacity onPress={toggleSwitchDarkMode} style={styles.flexrow}>
+                    <TouchableOpacity
+                        onPress={toggleSwitchDarkMode}
+                        style={styles.flexrow}
+                    >
                         <Text style={styles.bold}>Chế đô tối</Text>
                         <Switch
                             trackColor={{ false: 'grey', true: '#279EFF' }}
@@ -95,7 +98,10 @@ const SettingScreen = () => {
                             value={isDarkMode}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={toggleSwitchSound} style={styles.flexrow}>
+                    <TouchableOpacity
+                        onPress={toggleSwitchSound}
+                        style={styles.flexrow}
+                    >
                         <Text style={styles.bold}>Hiệu ứng âm thanh</Text>
                         <Switch
                             trackColor={{ false: 'grey', true: '#279EFF' }}
@@ -111,13 +117,13 @@ const SettingScreen = () => {
                     <Text style={styles.heading}>Giới thiệu thời tiết</Text>
                     <TouchableOpacity style={styles.flexrow}>
                         <Text style={styles.bold2}>Phản hồi</Text>
-                        <ChevronRight color='black'/>
+                        <ChevronRight color="black" />
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.flexrow}>
                         <Text style={styles.bold2}>
                             Điều khoản và chính sách
                         </Text>
-                        <ChevronRight color='black'/>
+                        <ChevronRight color="black" />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -164,21 +170,21 @@ const styles = StyleSheet.create({
         paddingBottom: 10,
     },
     select: {
-      // backgroundColor: '#fff',
-      marginBottom: 10,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderWidth: 1,
-      borderColor: 'rgba(0, 0, 0, 0.1)',
-      borderRadius: 10,
+        // backgroundColor: '#fff',
+        marginBottom: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: 'rgba(0, 0, 0, 0.1)',
+        borderRadius: 10,
     },
     selectText: {
-      color: 'black',
-      // textAlign: 'right'
+        color: 'black',
+        // textAlign: 'right'
     },
     div: {
-      display: 'flex',
-      flexDirection: 'col',
+        display: 'flex',
+        flexDirection: 'col',
     },
 })
 

@@ -6,7 +6,9 @@ export default function HourForecast({ data }) {
     const _data = useMemo(
         () =>
             data.hour.map((value) => {
-                const gap = (new Date(data.location.localtime) - new Date(value.time)) / 1000
+                const gap =
+                    (new Date(data.location.localtime) - new Date(value.time)) /
+                    1000
 
                 return {
                     ...value,

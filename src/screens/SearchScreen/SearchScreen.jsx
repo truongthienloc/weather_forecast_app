@@ -1,6 +1,10 @@
 import { useNavigation } from '@react-navigation/native'
 import { MagnifyingGlassIcon, XMarkIcon } from 'react-native-heroicons/outline'
-import { ArrowUturnLeftIcon, CalendarDaysIcon, MapPinIcon } from 'react-native-heroicons/solid'
+import {
+    ArrowUturnLeftIcon,
+    CalendarDaysIcon,
+    MapPinIcon,
+} from 'react-native-heroicons/solid'
 import React, { useEffect, useState, useCallback } from 'react'
 import { debounce } from 'lodash'
 import { theme } from '../../theme'
@@ -59,26 +63,29 @@ const SearchScreen = () => {
                         className="pl-4 h-10 pb-1 flex-1 text-base text-black"
                         autoFocus={true}
                     />
-                    <ArrowUturnLeftIcon size="25" color="black" onPress={handleBack}/>
+                    <ArrowUturnLeftIcon
+                        size="25"
+                        color="black"
+                        onPress={handleBack}
+                    />
                 </View>
-            {locations.length > 0 ? (
-                <View className="w-full bg-gray-300 rounded-md">
-                    {locations.map((loc, index) => {
-                        let showBorder = index + 1 != locations.length
-                        let borderClass = showBorder
-                            ? ' border-b-2 border-b-gray-400'
-                            : ''
-                        return (
-                            <CitySearchItem
-                                key={index}
-                                location={loc}
-                                borderClass={borderClass}
-
-                            />
-                        )
-                    })}
-                </View>
-            ) : null}
+                {locations.length > 0 ? (
+                    <View className="w-full bg-gray-300 rounded-md">
+                        {locations.map((loc, index) => {
+                            let showBorder = index + 1 != locations.length
+                            let borderClass = showBorder
+                                ? ' border-b-2 border-b-gray-400'
+                                : ''
+                            return (
+                                <CitySearchItem
+                                    key={index}
+                                    location={loc}
+                                    borderClass={borderClass}
+                                />
+                            )
+                        })}
+                    </View>
+                ) : null}
             </View>
             {/* SearchItem  */}
         </View>

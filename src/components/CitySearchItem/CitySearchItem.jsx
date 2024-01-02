@@ -8,27 +8,33 @@ import { addCity } from '~/services/redux/slices/cities.slice'
 const CitySearchItem = ({ location, borderClass }) => {
     const navigation = useNavigation()
     const dispatch = useDispatch()
-    const handleLocation = (loc) => {
-        navigation.navigate('daily-detail-screen')
+    const handleLocation = () => {
+        navigation.navigate('daily-detail-screen', { location: location })
     }
     const addCityToList = () => {
-        if (!location.name) return;
-        Alert.alert('Thêm thành công', `Đã thêm ${location.name} vào danh sách của bạn`, [
-            {
-              text: 'Ở lại',
-              style: 'cancel',
-            },
-            {text: 'Về trang quản lý', onPress: () => navigation.navigate('cities-screen')},
-          ])
+        if (!location.name) return
+        Alert.alert(
+            'Thêm thành công',
+            `Đã thêm ${location.name} vào danh sách của bạn`,
+            [
+                {
+                    text: 'Ở lại',
+                    style: 'cancel',
+                },
+                {
+                    text: 'Về trang quản lý',
+                    onPress: () => navigation.navigate('cities-screen'),
+                },
+            ],
+        )
         dispatch(addCity(location?.name))
     }
     return (
         <View>
             <TouchableOpacity
-                // onPress={() => handleLocation(location)}
+                onPress={handleLocation}
                 className={
-                    'flex-row items-center border-0 p-3 px-4 mb-1' +
-                    borderClass
+                    'flex-row items-center border-0 p-3 px-4 mb-1' + borderClass
                 }
             >
                 <View className="flex flex-row items-center flex-1">
@@ -37,7 +43,7 @@ const CitySearchItem = ({ location, borderClass }) => {
                         {location?.name}, {location?.country}
                     </Text>
                 </View>
-                <PlusIcon size="20" color="black" onPress={addCityToList}/>
+                <PlusIcon size="20" color="black" onPress={addCityToList} />
             </TouchableOpacity>
         </View>
     )

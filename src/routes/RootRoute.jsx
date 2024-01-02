@@ -31,7 +31,7 @@ export default function RootRoute() {
                 options={{
                     headerTitle: 'Dự báo 5 ngày',
                     headerTitleAlign: 'center',
-                    animation: 'fade_from_bottom'
+                    animation: 'fade_from_bottom',
                 }}
             />
             <Stack.Screen

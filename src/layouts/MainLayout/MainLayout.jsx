@@ -5,7 +5,10 @@ import bgImage from '@assets/images/bg.png'
 import { weatherBackgroundImages } from '../../constants'
 import { MainHead } from '~/components/MainHead'
 import { useSelector } from 'react-redux'
-import { forecastLocationSelector, forecastSelector } from '~/services/redux/selectors/forecast.selector'
+import {
+    forecastLocationSelector,
+    forecastSelector,
+} from '~/services/redux/selectors/forecast.selector'
 
 export default function MainLayout({ children }) {
     const location = useSelector(forecastLocationSelector)
