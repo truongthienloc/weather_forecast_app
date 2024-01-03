@@ -1,7 +1,7 @@
 import * as Location from 'expo-location'
 
 export function getCurrentLocation() {
-    const timeout = 10000
+    const timeout = 5000
     return new Promise(async (resolve, reject) => {
         setTimeout(() => {
             reject(

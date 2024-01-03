@@ -1,9 +1,18 @@
 import { useNavigation } from '@react-navigation/native'
 import { React, useEffect, useRef, useState } from 'react'
-import { Text, View, StyleSheet, Switch, TouchableOpacity } from 'react-native'
+import {
+    Text,
+    View,
+    StyleSheet,
+    Switch,
+    TouchableOpacity,
+    BackHandler,
+    Alert,
+} from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import SelectDropdown from 'react-native-select-dropdown'
 import { ChevronRight, ChevronsUpDown } from 'lucide-react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const SettingScreen = () => {
     const navigation = useNavigation()
@@ -21,6 +30,27 @@ const SettingScreen = () => {
             title: 'Cài đặt',
         })
     }, [navigation])
+
+    const handleResetApp = async () => {
+        await AsyncStorage.clear()
+        BackHandler.exitApp()
+    }
+
+    const handleResetAppPress = () => {
+        Alert.alert(
+            'Exit App',
+            'Do you want to exit?',
+            [
+                {
+                    text: 'No',
+                    style: 'cancel',
+                },
+                { text: 'Yes', onPress: handleResetApp },
+            ],
+            { cancelable: false },
+        )
+    }
+
     return (
         <>
             <StatusBar style="light" backgroundColor="black" />
@@ -123,6 +153,13 @@ const SettingScreen = () => {
                         <Text style={styles.bold2}>
                             Điều khoản và chính sách
                         </Text>
+                        <ChevronRight color="black" />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.flexrow}
+                        onPress={handleResetAppPress}
+                    >
+                        <Text style={styles.bold2}>Reset app</Text>
                         <ChevronRight color="black" />
                     </TouchableOpacity>
                 </View>

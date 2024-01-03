@@ -17,7 +17,7 @@ export const citiesSlice = createSlice({
         },
         addCity: (state, action) => {
             try {
-                console.log(action.payload)
+                // console.log(action.payload)
                 const citiesList = [...state.citiesList, action.payload]
                 AsyncStorage.setItem('citiesList', JSON.stringify(citiesList))
                 // console.log('cityList', citiesList)

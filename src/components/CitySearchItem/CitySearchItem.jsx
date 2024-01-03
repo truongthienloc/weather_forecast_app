@@ -2,12 +2,15 @@ import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { View, Text, TouchableOpacity, Alert } from 'react-native'
 import { MapPinIcon, PlusIcon } from 'react-native-heroicons/solid'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { citiesSelector } from '~/services/redux/selectors/cities.selector'
 import { addCity } from '~/services/redux/slices/cities.slice'
+import { fetchCitiesForecastThunk } from '~/services/redux/slices/forecast.slice'
 
 const CitySearchItem = ({ location, borderClass }) => {
     const navigation = useNavigation()
     const dispatch = useDispatch()
+    const cities = useSelector(citiesSelector)
     const handleLocation = () => {
         navigation.navigate('daily-detail-screen', { location: location })
     }
@@ -28,6 +31,7 @@ const CitySearchItem = ({ location, borderClass }) => {
             ],
         )
         dispatch(addCity(location?.name))
+        dispatch(fetchCitiesForecastThunk([...cities, location.name]))
     }
     return (
         <View>
