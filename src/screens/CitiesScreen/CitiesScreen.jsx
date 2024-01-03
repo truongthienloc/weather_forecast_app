@@ -23,37 +23,50 @@ import { StatusBar } from 'expo-status-bar'
 import { locationSelector } from '~/services/redux/selectors/location.selector'
 import { useDispatch, useSelector } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import citiesSlice, { initValue } from '~/services/redux/slices/cities.slice'
+import citiesSlice, {
+    fetchCities,
+    initValue,
+} from '~/services/redux/slices/cities.slice'
+import { citiesSelector } from '~/services/redux/selectors/cities.selector'
+import { forecastActions } from '~/services/redux/slices/forecast.slice'
 
 const CitiesScreen = () => {
     const navigation = useNavigation()
     const location = useSelector(locationSelector)
-    const [locations, setlocations] = useState([])
-    const [search, setSearch] = useState()
+    // const [locations, setlocations] = useState([])
+    // const [search, setSearch] = useState()
     const dispatch = useDispatch()
-    const Cities = useSelector((state) => state.citiesSlice.citiesList)
+    const Cities = useSelector(citiesSelector)
     const navigateSearch = () => {
         navigation.navigate('search-screen')
     }
     useEffect(() => {
-        const getCitiesListFromAsyncStorage = async () => {
-            try {
-                const storedCitiesList =
-                    await AsyncStorage.getItem('citiesList')
-                if (storedCitiesList !== null) {
-                    console.log('stcl', storedCitiesList)
-                    dispatch(initValue(JSON.parse(storedCitiesList)))
-                }
-            } catch (error) {
-                console.error(
-                    'Error retrieving citiesList from AsyncStorage:',
-                    error,
-                )
-            }
+        // const getCitiesListFromAsyncStorage = async () => {
+        //     try {
+        //         const storedCitiesList =
+        //             await AsyncStorage.getItem('citiesList')
+        //         if (storedCitiesList !== null) {
+        //             console.log('stcl', storedCitiesList)
+        //             dispatch(initValue(JSON.parse(storedCitiesList)))
+        //         }
+        //     } catch (error) {
+        //         console.error(
+        //             'Error retrieving citiesList from AsyncStorage:',
+        //             error,
+        //         )
+        //     }
+        // }
+        // getCitiesListFromAsyncStorage()
+        if (Cities.length === 0) {
+            dispatch(fetchCities())
         }
-        getCitiesListFromAsyncStorage()
     }, [])
-    console.log('city', Cities)
+
+    const handleCityItemPress = (index) => {
+        dispatch(forecastActions.setIndex(index))
+        navigation.goBack()
+    }
+
     return (
         <>
             <StatusBar style="light" backgroundColor="black" />
@@ -84,12 +97,20 @@ const CitiesScreen = () => {
                     </View>
                 </View>
                 <View className="m-[8px] flex-1">
-                    <CityItem location={`${location.lat},${location.lon}`} />
+                    <CityItem
+                        location={`${location.lat},${location.lon}`}
+                        onPress={() => handleCityItemPress(0)}
+                    />
                     <FlatList
                         // style={{flex: 1}}
                         data={Cities}
                         keyExtractor={(item) => item}
-                        renderItem={({ item }) => <CityItem location={item} />}
+                        renderItem={({ item, index }) => (
+                            <CityItem
+                                location={item}
+                                onPress={() => handleCityItemPress(index + 1)}
+                            />
+                        )}
                     />
                 </View>
             </View>

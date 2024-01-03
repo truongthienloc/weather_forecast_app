@@ -10,8 +10,8 @@ import {
     forecastSelector,
 } from '~/services/redux/selectors/forecast.selector'
 
-export default function MainLayout({ children }) {
-    const location = useSelector(forecastLocationSelector)
+export default function MainLayout({ children, location }) {
+    // const location = useSelector(forecastLocationSelector)
     return (
         <View className="flex-1">
             <StatusBar style="light" />

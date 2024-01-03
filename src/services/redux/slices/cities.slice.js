@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 const initialState = {
     citiesList: [],
+    status: 'idle',
 }
 
 export const citiesSlice = createSlice({
@@ -45,9 +46,35 @@ export const citiesSlice = createSlice({
             }
         },
     },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchCities.pending, (state) => {
+                state.status = 'loading'
+            })
+            .addCase(fetchCities.fulfilled, (state, action) => {
+                state.status = 'succeeded'
+                state.citiesList = action.payload
+            })
+            .addCase(fetchCities.rejected, (state, action) => {
+                state.status = 'failed'
+                // state.error = action.error.message
+            })
+    },
+})
+
+export const fetchCities = createAsyncThunk('cities/fetchCities', async () => {
+    try {
+        const citiesListJSON = await AsyncStorage.getItem('citiesList')
+        const citiesList = JSON.parse(citiesListJSON) || []
+        return citiesList
+    } catch (error) {
+        throw new Error(
+            'Error fetching cities from AsyncStorage: ' + error.message,
+        )
+    }
 })
 
 // Action creators are generated for each case reducer function
 export const { initValue, addCity, removeCity } = citiesSlice.actions
 
-export default citiesSlice.reducer
+export default citiesSlice
