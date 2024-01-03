@@ -1,14 +1,17 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { Provider } from 'react-redux'
+import { FirstLoadProvider } from '~/components/FirstLoadProvider'
 import { RootRoute } from '~/routes'
 import { store } from '~/services/redux'
 
 export default function App() {
     return (
         <Provider store={store}>
-            <NavigationContainer>
-                <RootRoute />
-            </NavigationContainer>
+            <FirstLoadProvider>
+                <NavigationContainer>
+                    <RootRoute />
+                </NavigationContainer>
+            </FirstLoadProvider>
         </Provider>
     )
 }

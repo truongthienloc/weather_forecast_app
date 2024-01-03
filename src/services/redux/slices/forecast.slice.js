@@ -2,11 +2,15 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { fetchForecast } from '~/services/axios/actions/forecast.action'
 
 const initialState = {
-    daily: [],
-    history: [],
-    hourly: [],
-    current: {},
-    location: {},
+    cities: [],
+    present: {
+        daily: [],
+        history: [],
+        hourly: [],
+        current: {},
+        location: {},
+    },
+    index: 0,
     isLoading: true,
 }
 
@@ -26,6 +30,9 @@ const forecastSlice = createSlice({
         setCurrent(state, action) {
             state.current = action.payload
         },
+        setIndex(state, action) {
+            state.index = action.payload
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -33,12 +40,13 @@ const forecastSlice = createSlice({
                 state.isLoading = true
             })
             .addCase(fetchForecastThunk.fulfilled, (state, action) => {
-                state.current = action.payload.current
-                state.daily = action.payload.daily
-                state.hourly = action.payload.hourly
-                state.location = action.payload.location
-                state.history = action.payload.history
+                state.present = { ...action.payload }
+
                 state.isLoading = false
+            })
+            .addCase(fetchCitiesForecastThunk.fulfilled, (state, action) => {
+                // Assuming the action.payload is an array of forecast data for different cities
+                state.cities = action.payload
             })
     },
 })
@@ -56,3 +64,21 @@ export const fetchForecastThunk = createAsyncThunk(
         }
     },
 )
+
+export const fetchCitiesForecastThunk = createAsyncThunk(
+    'forecast/fetching-cities',
+    async (cities) => {
+        try {
+            const res = []
+            for (const city of cities) {
+                res.push(await fetchForecast(city))
+            }
+
+            return res
+        } catch (error) {
+            console.log(error)
+        }
+    },
+)
+
+// export const fetchCitiesForecast

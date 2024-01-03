@@ -12,7 +12,7 @@ export default function MainHead({ city }) {
         navigation.navigate('setting-screen')
     }
     return (
-        <View className="p-8 fixed flex-row items-center justify-between mt-5">
+        <View className="p-8 pb-1 fixed flex-row items-center justify-between mt-5">
             <TouchableOpacity onPress={onAddPress}>
                 <AntDesign name="plus" size={32} color="white" />
             </TouchableOpacity>

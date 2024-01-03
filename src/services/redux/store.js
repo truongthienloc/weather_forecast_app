@@ -7,7 +7,7 @@ const store = configureStore({
     reducer: {
         [locationSlice.name]: locationSlice.reducer,
         [forecastSlice.name]: forecastSlice.reducer,
-        citiesSlice: citiesSlice,
+        [citiesSlice.name]: citiesSlice.reducer,
     },
 })
 

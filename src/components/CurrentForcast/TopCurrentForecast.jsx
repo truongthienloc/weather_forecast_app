@@ -6,7 +6,7 @@ import { weatherImages } from '../../constants'
 
 export default function TopCurrentForecast({ data }) {
     return (
-        <View className="gap-4">
+        <View className="gap-4 mb-4">
             <View className="flex-row justify-center">
                 <Image
                     source={weatherImages[data?.condition?.text || 'other']}

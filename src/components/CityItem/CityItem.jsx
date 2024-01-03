@@ -13,8 +13,8 @@ import { citiItemImages } from '../../constants'
 import { api } from '~/services/axios'
 import { getItemForCurrent } from '~/helpers/forecast'
 
-const CityItem = ({ location, isMyLocation = false }) => {
-    const [Condition, setCondition] = useState('')
+const CityItem = ({ location, isMyLocation = false, onPress }) => {
+    // const [Condition, setCondition] = useState('')
     const [showDelete, setshowDelete] = useState(false)
     const [data, setData] = useState({})
     const handleLongPress = () => {
@@ -36,6 +36,7 @@ const CityItem = ({ location, isMyLocation = false }) => {
         <TouchableOpacity
             style={styles.container}
             onLongPress={handleLongPress}
+            onPress={onPress}
         >
             {/* <View className="flex flex-row gap-4"> */}
             <ImageBackground
