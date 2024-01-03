@@ -70,14 +70,13 @@ const CityItem = ({ location, isMyLocation = false, onPress }) => {
                             {data.temp_c}°C
                         </Text>
                     </View>
+                    {showDelete ? (
+                        <TouchableOpacity>
+                            <XMarkIcon size={'40'} color={'red'} />
+                        </TouchableOpacity>
+                    ) : null}
                 </View>
             </ImageBackground>
-            {showDelete ? (
-                <TouchableOpacity>
-                    <XMarkIcon size={'30'} color={'red'} />
-                </TouchableOpacity>
-            ) : null}
-            {/* </View> */}
         </TouchableOpacity>
     )
 }
