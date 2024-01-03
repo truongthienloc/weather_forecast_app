@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // import all the components we are going to use
 import {
@@ -12,8 +12,29 @@ import {
 
 //import AppIntroSlider to use it
 import AppIntroSlider from 'react-native-app-intro-slider'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { LoadingScreen } from '~/components/EmptyScreen'
 
 export default function IntroScreen({ navigation }) {
+    const [isLoading, setIsLoading] = useState(true)
+
+    const checkFirstOpen = async () => {
+        setIsLoading(true)
+        const isFirstOpen = await AsyncStorage.getItem('first-open')
+        // console.log("isFirstLoad: ", isFirstOpen);
+
+        if (isFirstOpen) {
+            navigation.replace('main-screen')
+        } else {
+            await AsyncStorage.setItem('first-open', 'true')
+            setIsLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        checkFirstOpen()
+    }, [])
+
     const onDone = () => {
         navigation.replace('main-screen')
     }
@@ -38,6 +59,10 @@ export default function IntroScreen({ navigation }) {
                 <Text style={styles.introTextStyle}>{item.text}</Text>
             </View>
         )
+    }
+
+    if (isLoading) {
+        return <LoadingScreen />
     }
 
     return (

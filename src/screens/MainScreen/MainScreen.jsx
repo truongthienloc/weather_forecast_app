@@ -72,7 +72,7 @@ export default function MainScreen({ navigation }) {
     }, [])
 
     useEffect(() => {
-        console.log(location.lat, location.lon)
+        // console.log(location.lat, location.lon)
         if (location.isLoading) {
             return
         }
