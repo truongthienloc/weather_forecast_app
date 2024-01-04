@@ -18,8 +18,25 @@ const CitySearchItem = ({ location, borderClass }) => {
         navigation.navigate('daily-detail-screen', { location: location })
     }
     const addCityToList = () => {
+        console.log('cities',cities);
+        console.log('check',cities.indexOf(location.name));
         if (!location.name) return;
-        if (cities.indexOf(location.name)) return;
+        if (cities.indexOf(location.name) !== -1) {
+            Alert.alert(
+                'Thêm thất bại',
+                `${location.name} đã tồn tại trong danh sách của bạn`,
+                [
+                    {
+                        text: 'Ở lại',
+                        style: 'cancel',
+                    },
+                    {
+                        text: 'Về trang quản lý',
+                        onPress: () => navigation.navigate('cities-screen'),
+                    },
+                ],
+            )
+        return;}
         Alert.alert(
             'Thêm thành công',
             `Đã thêm ${location.name} vào danh sách của bạn`,
