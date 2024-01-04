@@ -30,7 +30,7 @@ const CityItem = ({ location, isMyLocation = false, onPress }) => {
     const removeCityFromList = () => {
         dispatch(removeCity(location))
         dispatch(
-            forecastActions.removeCities({ location: { name: location.name } }),
+            forecastActions.removeCities({ location: { name: location } }),
         )
         // dispatch(fetchCitiesForecastThunk([...Cities, location.name]))
     }
