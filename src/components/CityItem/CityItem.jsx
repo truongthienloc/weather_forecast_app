@@ -32,7 +32,7 @@ const CityItem = ({ location, isMyLocation = false, onPress }) => {
         dispatch(
             forecastActions.removeCities({ location: { name: location.name } }),
         )
-        dispatch(fetchCitiesForecastThunk([...Cities, location.name]))
+        // dispatch(fetchCitiesForecastThunk([...Cities, location.name]))
     }
     useEffect(() => {
         const fetchData = async () => {
