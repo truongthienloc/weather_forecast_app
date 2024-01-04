@@ -31,8 +31,9 @@ const forecastSlice = createSlice({
                 state.isLoading = true
             })
             .addCase(fetchForecastThunk.fulfilled, (state, action) => {
-                state.present = { ...action.payload }
-
+                // console.log("payload: ", action.payload);
+                state.present = { ...action.payload.present }
+                state.cities = [...action.payload.cities]
                 state.isLoading = false
             })
             .addCase(fetchCitiesForecastThunk.pending, (state) => {
@@ -53,7 +54,20 @@ export const fetchForecastThunk = createAsyncThunk(
     'forecast/fetching',
     async (query) => {
         try {
-            return await fetchForecast(query)
+            const resPresent = await fetchForecast(query.present)
+
+            const resCities = []
+            for (const city of query.cities) {
+                resCities.push(await fetchForecast(city))
+            }
+
+            // console.log("resPresent: ", resPresent);
+            // console.log("resCities: ", resCities);
+
+            return {
+                present: resPresent,
+                cities: resCities,
+            }
         } catch (error) {
             console.log(error)
         }
@@ -64,12 +78,12 @@ export const fetchCitiesForecastThunk = createAsyncThunk(
     'forecast/fetching-cities',
     async (cities) => {
         try {
-            const res = []
+            const resCities = []
             for (const city of cities) {
-                res.push(await fetchForecast(city))
+                resCities.push(await fetchForecast(city))
             }
 
-            return res
+            return resCities
         } catch (error) {
             console.log(error)
         }
