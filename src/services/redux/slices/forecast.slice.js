@@ -21,6 +21,9 @@ const forecastSlice = createSlice({
         addCities(state, action) {
             state.cities = [...state.cities, action.payload]
         },
+        removeCities(state, action) {
+            state.cities = state.cities.filter(city => city !== action.payload);
+        },
         setIndex(state, action) {
             state.index = action.payload
         },

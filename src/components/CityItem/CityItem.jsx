@@ -12,13 +12,27 @@ import { XMarkIcon } from 'react-native-heroicons/outline'
 import { citiItemImages } from '../../constants'
 import { api } from '~/services/axios'
 import { getItemForCurrent } from '~/helpers/forecast'
+import { removeCity } from '~/services/redux/slices/cities.slice'
+import { useDispatch, useSelector } from 'react-redux'
+import { citiesSelector } from '~/services/redux/selectors/cities.selector'
+import { fetchCitiesForecastThunk,forecastActions } from '~/services/redux/slices/forecast.slice'
+
 
 const CityItem = ({ location, isMyLocation = false, onPress }) => {
     // const [Condition, setCondition] = useState('')
     const [showDelete, setshowDelete] = useState(false)
     const [data, setData] = useState({})
+    const dispatch = useDispatch()
+    const Cities = useSelector(citiesSelector)
     const handleLongPress = () => {
         setshowDelete(!showDelete)
+    }
+    const removeCityFromList = () => {
+        dispatch(removeCity(location))
+        dispatch(
+            forecastActions.removeCities({ location: { name: location.name } }),
+        )
+        dispatch(fetchCitiesForecastThunk([...Cities, location.name]))
     }
     useEffect(() => {
         const fetchData = async () => {
@@ -32,6 +46,7 @@ const CityItem = ({ location, isMyLocation = false, onPress }) => {
         }
         fetchData()
     }, [])
+    console.log('location',location);
     return (
         <TouchableOpacity
             style={styles.container}
@@ -71,7 +86,9 @@ const CityItem = ({ location, isMyLocation = false, onPress }) => {
                         </Text>
                     </View>
                     {showDelete ? (
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={removeCityFromList}
+                        >
                             <XMarkIcon size={'40'} color={'red'} />
                         </TouchableOpacity>
                     ) : null}
