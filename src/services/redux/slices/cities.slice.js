@@ -18,12 +18,14 @@ export const citiesSlice = createSlice({
         addCity: (state, action) => {
             try {
                 // console.log(action.payload)
-                const citiesList = [...state.citiesList, action.payload]
-                AsyncStorage.setItem('citiesList', JSON.stringify(citiesList))
-                // console.log('cityList', citiesList)
-                return {
-                    ...state,
-                    citiesList,
+                if (!state.citiesList.includes(action.payload)) {
+                    const citiesList = [...state.citiesList, action.payload]
+                    AsyncStorage.setItem('citiesList', JSON.stringify(citiesList))
+                    // console.log('cityList', citiesList)
+                    return {
+                        ...state,
+                        citiesList,
+                    }
                 }
             } catch (error) {
                 console.error('Error saving citiesList to AsyncStorage:', error)

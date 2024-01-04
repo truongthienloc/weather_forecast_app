@@ -19,7 +19,10 @@ const forecastSlice = createSlice({
     initialState,
     reducers: {
         addCities(state, action) {
-            state.cities = [...state.cities, action.payload]
+            const check = state.cities.find(value => value.location.name === action.payload.name)
+            if (!check) {
+                state.cities = [...state.cities, action.payload]
+            }
         },
         setIndex(state, action) {
             state.index = action.payload
