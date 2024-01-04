@@ -22,7 +22,7 @@ export default function MainLayout({ children, location }) {
                 //Update background theo condition
                 blurRadius={70}
             />
-            <MainHead city={location.name} />
+            <MainHead city={location?.name} />
             {children}
         </View>
     )

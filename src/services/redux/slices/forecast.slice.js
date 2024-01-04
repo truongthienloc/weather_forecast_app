@@ -18,17 +18,8 @@ const forecastSlice = createSlice({
     name: 'forecast',
     initialState,
     reducers: {
-        setDaily(state, action) {
-            state.daily = action.payload
-        },
-        setHistory(state, action) {
-            state.current = action.payload
-        },
-        setHourly(state, action) {
-            state.hourly = action.payload
-        },
-        setCurrent(state, action) {
-            state.current = action.payload
+        addCities(state, action) {
+            state.cities = [...state.cities, action.payload]
         },
         setIndex(state, action) {
             state.index = action.payload
@@ -44,9 +35,13 @@ const forecastSlice = createSlice({
 
                 state.isLoading = false
             })
+            .addCase(fetchCitiesForecastThunk.pending, (state) => {
+                state.isLoading = true
+            })
             .addCase(fetchCitiesForecastThunk.fulfilled, (state, action) => {
                 // Assuming the action.payload is an array of forecast data for different cities
                 state.cities = action.payload
+                state.isLoading = false
             })
     },
 })

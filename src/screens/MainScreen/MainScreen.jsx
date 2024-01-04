@@ -33,6 +33,7 @@ import { citiesSelector } from '~/services/redux/selectors/cities.selector'
 import { Entypo } from '@expo/vector-icons'
 import { Octicons } from '@expo/vector-icons'
 import { getCurrentLocation } from '~/helpers/location'
+import { LoadingScreen } from '~/components/EmptyScreen'
 
 export default function MainScreen({ navigation }) {
     const dispatch = useDispatch()
@@ -45,26 +46,30 @@ export default function MainScreen({ navigation }) {
     const height = Dimensions.get('window').height
 
     const fetchLocation = async () => {
-        if (location.isFirstLoaded) {
-            return
-        }
+        try {
+            if (location.isFirstLoaded) {
+                return
+            }
 
-        let { status } = await Location.requestForegroundPermissionsAsync()
-        if (status !== 'granted') {
+            let { status } = await Location.requestForegroundPermissionsAsync()
+            if (status !== 'granted') {
+                setIsPermissionDenied(true)
+                return
+            }
+
+            setIsPermissionDenied(false)
+
+            const loc = await getCurrentLocation()
+
+            dispatch(
+                locationActions.setLocation({
+                    lat: loc.coords.latitude,
+                    lon: loc.coords.longitude,
+                }),
+            )
+        } catch (error) {
             setIsPermissionDenied(true)
-            return
         }
-
-        setIsPermissionDenied(false)
-
-        const loc = await getCurrentLocation()
-
-        dispatch(
-            locationActions.setLocation({
-                lat: loc.coords.latitude,
-                lon: loc.coords.longitude,
-            }),
-        )
     }
 
     useEffect(() => {
@@ -87,9 +92,12 @@ export default function MainScreen({ navigation }) {
         dispatch(forecastActions.setIndex(index))
     }
 
-    const handleDailyPress = () => {
+    const handleDailyPress = (index) => {
+        const data = [forecast.present, ...forecast.cities]
+
         navigation.navigate('daily-detail-screen', {
-            data: [...forecast.history, ...forecast.daily],
+            data: [...data[index].history, ...data[index].daily],
+            name: data[index].location.name,
         })
     }
 
@@ -101,7 +109,7 @@ export default function MainScreen({ navigation }) {
 
     if (isPermissionDenied && location.isLoading) {
         return (
-            <MainLayout location={forecast.location}>
+            <MainLayout location={choseForecast.location}>
                 <View className="pt-10 gap-4 px-5">
                     <Text className="text-center text-xl text-white">
                         Không xác định được vị trí hiện tại.{'\n'}Vui lòng chọn
@@ -123,7 +131,11 @@ export default function MainScreen({ navigation }) {
     }
 
     if (forecast.isLoading) {
-        return <MainLayout location={forecast.present.location}></MainLayout>
+        return (
+            <MainLayout location={choseForecast.location}>
+                <LoadingScreen />
+            </MainLayout>
+        )
     }
 
     return (
@@ -156,12 +168,18 @@ export default function MainScreen({ navigation }) {
                     onSnapToItem={handleChangeIndex}
                     // onProgressChange={(o, a) => handleChangeIndex(a)}
                     renderItem={({ index, item }) => (
-                        <View className="mr-4" key={item.location.url}>
-                            <TopCurrentForecast data={item.current} />
-                            <DayForecast
-                                data={item.daily}
-                                onPress={handleDailyPress}
-                            />
+                        <View className="mr-4">
+                            {item.current === undefined ? (
+                                <LoadingScreen />
+                            ) : (
+                                <>
+                                    <TopCurrentForecast data={item.current} />
+                                    <DayForecast
+                                        data={item.daily}
+                                        onPress={() => handleDailyPress(index)}
+                                    />
+                                </>
+                            )}
                         </View>
                     )}
                 />

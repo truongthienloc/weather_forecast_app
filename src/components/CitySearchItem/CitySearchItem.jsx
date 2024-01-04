@@ -5,7 +5,10 @@ import { MapPinIcon, PlusIcon } from 'react-native-heroicons/solid'
 import { useDispatch, useSelector } from 'react-redux'
 import { citiesSelector } from '~/services/redux/selectors/cities.selector'
 import { addCity } from '~/services/redux/slices/cities.slice'
-import { fetchCitiesForecastThunk } from '~/services/redux/slices/forecast.slice'
+import {
+    fetchCitiesForecastThunk,
+    forecastActions,
+} from '~/services/redux/slices/forecast.slice'
 
 const CitySearchItem = ({ location, borderClass }) => {
     const navigation = useNavigation()
@@ -31,6 +34,9 @@ const CitySearchItem = ({ location, borderClass }) => {
             ],
         )
         dispatch(addCity(location?.name))
+        dispatch(
+            forecastActions.addCities({ location: { name: location.name } }),
+        )
         dispatch(fetchCitiesForecastThunk([...cities, location.name]))
     }
     return (

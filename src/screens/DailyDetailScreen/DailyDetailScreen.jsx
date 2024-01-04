@@ -7,7 +7,7 @@ import { fetchForecast } from '~/services/axios/actions/forecast.action'
 import { LoadingScreen } from '~/components/EmptyScreen'
 
 export default function DailyDetailScreen({ route, navigation }) {
-    const { data, location } = route.params
+    const { data, location, name } = route.params
     const [daily, setDaily] = useState([])
     const [isLoading, setIsLoading] = useState(false)
 
@@ -36,7 +36,10 @@ export default function DailyDetailScreen({ route, navigation }) {
     }
 
     return (
-        <View className="flex-1">
+        <View className="flex-1 pt-2">
+            <Text className="text-center text-2xl font-bold mb-2">
+                {location ? location.name : name}
+            </Text>
             <FlatList
                 horizontal
                 data={daily}
