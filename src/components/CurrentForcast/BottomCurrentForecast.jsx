@@ -3,6 +3,7 @@ import React from 'react'
 import { WIND_DIRECTION } from '~/configs/image'
 
 export default function BottomCurrentForecast({ data }) {
+    // console.log("data: ", data);
     return (
         <View className="flex-row gap-2">
             <View className="flex-1">

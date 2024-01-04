@@ -82,9 +82,15 @@ export default function MainScreen({ navigation }) {
             return
         }
 
-        dispatch(fetchForecastThunk(`${location.lat},${location.lon}`))
+        // console.log('cities: ', cities)
+        dispatch(
+            fetchForecastThunk({
+                present: `${location.lat},${location.lon}`,
+                cities: cities,
+            }),
+        )
         // console.log("cities: ", cities);
-        dispatch(fetchCitiesForecastThunk(cities))
+        // dispatch(fetchCitiesForecastThunk(cities))
     }, [location])
 
     const handleChangeIndex = (index) => {
@@ -137,6 +143,8 @@ export default function MainScreen({ navigation }) {
             </MainLayout>
         )
     }
+
+    // console.log('choseForecast: ', choseForecast)
 
     return (
         <MainLayout location={choseForecast.location}>
