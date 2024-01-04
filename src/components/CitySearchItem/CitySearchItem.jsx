@@ -18,7 +18,8 @@ const CitySearchItem = ({ location, borderClass }) => {
         navigation.navigate('daily-detail-screen', { location: location })
     }
     const addCityToList = () => {
-        if (!location.name) return
+        if (!location.name) return;
+        if (cities.indexOf(location.name)) return;
         Alert.alert(
             'Thêm thành công',
             `Đã thêm ${location.name} vào danh sách của bạn`,
